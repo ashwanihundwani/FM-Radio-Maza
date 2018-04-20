@@ -1,0 +1,27 @@
+[
+    {
+        "id": 1,
+        "name": "Red FM 93.5",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 2,
+        "name": "Red FM 93.5",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 3,
+        "name": "Red FM 93.5",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 4,
+        "name": "Red FM 93.5",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 5,
+        "name": "Red FM 93.5",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    }
+]

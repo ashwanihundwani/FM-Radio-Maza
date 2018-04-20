@@ -4,7 +4,7 @@
 //  * @flow
 //  */
 
-import { View, NativeEventEmitter, NativeModules, AsyncStorage } from 'react-native';
+import { View, NativeEventEmitter, NativeModules, AsyncStorage, TouchableHighlight } from 'react-native';
 import { Icon, Header, Button } from 'react-native-elements';
 import React from 'react'
 import { Text, Animated, Easing } from 'react-native'
@@ -35,7 +35,7 @@ const DrawerStack = DrawerNavigator({
   })
 
 function getIconStyle() {
-  return { paddingLeft: 8, marginTop: 0 }
+  return { alignItems:"center", justifyContent:"center", height:44, width:44 }
   
 }
 
@@ -44,18 +44,18 @@ const DrawerNavigation = StackNavigator({
 }, {
     headerMode: 'float',
     navigationOptions: ({ navigation }) => ({
-      headerStyle: { backgroundColor: '#E6E6E6' },
+      headerStyle: { backgroundColor: '#a1b4d4' },
       headerTitleStyle: { fontWeight: "600", fontSize: 13 },
-      headerTintColor: "#666666",
+      headerTintColor: "white",
       title: "FM Radio Maza",
       gesturesEnabled: false,
-      headerLeft: <View style={getIconStyle()}><Icon type='font-awesome' color="gray" name="bars" size={25} onPress={() => {
+      headerLeft: <TouchableHighlight underlayColor='#a1b4d4' onPress={() => {
         if (navigation.state.index === 0) {
           navigation.navigate('DrawerOpen')
         } else {
           navigation.navigate('DrawerClose')
         }
-      }}></Icon></View>
+      }} style={getIconStyle()}><Icon type='font-awesome' color="white" name="bars" size={20}></Icon></TouchableHighlight>
     })
   })
 
