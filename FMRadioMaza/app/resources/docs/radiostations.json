@@ -6,22 +6,236 @@
     },
     {
         "id": 2,
-        "name": "Red FM 93.5",
+        "name": "Radio Mirchi 98.3",
         "streamingURL": "http://173.203.133.187:9700/stream/1/"
     },
     {
         "id": 3,
-        "name": "Red FM 93.5",
+        "name": "Hindi Desi Bollywood Evergreen Hits",
         "streamingURL": "http://173.203.133.187:9700/stream/1/"
     },
     {
         "id": 4,
-        "name": "Red FM 93.5",
+        "name": "Bollywood Radio Beyond",
         "streamingURL": "http://173.203.133.187:9700/stream/1/"
     },
     {
         "id": 5,
-        "name": "Red FM 93.5",
+        "name": "Radio City Hindi",
         "streamingURL": "http://173.203.133.187:9700/stream/1/"
-    }
+    },
+    {
+        "id": 6,
+        "name": "City 1016",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 7,
+        "name": "Radio City Tamil",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 8,
+        "name": "Radio City Fun Ka Antenna",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 9,
+        "name": "Sada Bahar Music Radio",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 10,
+        "name": "Radio City Hindi",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 11,
+        "name": "Radio City Hindi",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 12,
+        "name": "Shakti FM",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 13,
+        "name": "All India Radio FM Gold",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 14,
+        "name": "BBC Hindi Radio",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 15,
+        "name": "BBC Tamil Radio",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 16,
+        "name": "A.R. Rahman Radio Tamil",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 17,
+        "name": "Chennai FM Rainbow 101.4",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 18,
+        "name": "Sikh Net",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 19,
+        "name": "Radio Sai Global Harmony",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 20,
+        "name": "Live Kirtan Sri Harmandir Sahib",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 21,
+        "name": "Radio Madhuban FM 90.4 FM",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 22,
+        "name": "Radio City 91.1 FM",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 23,
+        "name": "Kerala Radio India",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 24,
+        "name": "Easy 96 India",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 25,
+        "name": "Radio Sharda India",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 26,
+        "name": "Dhol Radio Punjabi",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 27,
+        "name": "Tamil Olli India",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 28,
+        "name": "Air Vividh Bharati",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 29,
+        "name": "Vanavil FM",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 30,
+        "name": "Radio City Freedom",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 31,
+        "name": "Sunrise Radio Yorkshire",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 32,
+        "name": "Sunrise Radio Yorkshire",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 33,
+        "name": "Sunrise Radio Yorkshire",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 34,
+        "name": "Radio India",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 35,
+        "name": "Bombay Beats India",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 36,
+        "name": "The Classics Punjabi",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 37,
+        "name": "YSR Radio Tamil",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 38,
+        "name": "Shyam Radio India",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 39,
+        "name": "Radio Afsana India",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 40,
+        "name": "Calm Radio Hindi",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 41,
+        "name": "Radio Islam Malayalam",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 42,
+        "name": "Shaivam Radio Tamil",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 43,
+        "name": "Radio Schizoid Chillout",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 44,
+        "name": "Hits Of Bollywood",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 45,
+        "name": "Telugu One India",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 46,
+        "name": "Mohd Rafi Radio",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+    {
+        "id": 47,
+        "name": "Jesus FM Tamil",
+        "streamingURL": "http://173.203.133.187:9700/stream/1/"
+    },
+
+
+
+
 ]

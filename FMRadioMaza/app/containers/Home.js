@@ -5,10 +5,11 @@ import {
 import React, { Component } from 'react';
 import TimerMixin from 'react-timer-mixin';
 import GridList from 'react-native-grid-list';
-import {
-    Player,
-    MediaStates
-} from 'react-native-audio-toolkit';
+import TrackPlayer from 'react-native-track-player';
+import MiniPlayer from '../containers/MiniPlayer'
+import { YellowBox } from 'react-native';
+
+import { getImageForStationId } from '../utils/utils'
 
 let widthToHeightRatio = 0.8
 
@@ -22,84 +23,91 @@ export default class Home extends Component {
         }
     }
     componentDidMount() {
-
-        this.state.player = new Player("http://173.203.133.187:9700/stream/1/");
-        this.state.player.play(() => {
-            this.setState({ isPlaying: true });
-        });
+        YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
+        
+        this.streamSelectedStation()
     }
 
-getImage() {
-    return require('../resources/add.png')
-}
+    componentWillMount() {
 
-calculateItemWidth() {
-    return this.state.mainViewWidth / 2 - 30
-}
+        this.setState({
+            selectedStation:this.state.stations[0]
+        })
+    }
 
-calculateItemHeight() {
-    return (this.state.mainViewWidth / 2 - 30) * widthToHeightRatio
-}
+    calculateItemWidth() {
+        return (this.state.mainViewWidth / 2 - 30)
+    }
 
-renderItem = ({ item, index }) => (
-    <View>
-        <View style={{
-            shadowColor: "gray",
-            elevation: 5,
-            shadowOpacity: 0.5,
-            shadowRadius: 5,
-            shadowOffset: {
-                height: 1,
-                width: 0
-            }, borderRadius: 10, backgroundColor: "white",
-            marginTop: 13,
-            marginBottom: 5,
-            width: this.calculateItemWidth(),
-            height: this.calculateItemHeight()
-        }}>
-            <Image style={{ borderRadius: 10, width: this.calculateItemWidth(), height: this.calculateItemHeight() }} source={require('../resources/images/redfm.jpeg')}></Image>
+    calculateItemHeight() {
+        return ((this.state.mainViewWidth / 2 - 30) * widthToHeightRatio)
+    }
+
+    renderItem = ({ item, index }) => (
+        <View>
+            <TouchableHighlight
+                onPress={() => {
+                    this.setState({
+                        selectedStation:item
+                    })
+                    this.streamSelectedStation()
+                }}>
+                <View style={{
+                    shadowColor: "#808080",
+                    elevation: 5,
+                    shadowOpacity: 0.5,
+                    shadowRadius: 5,
+                    shadowOffset: {
+                        height: 1,
+                        width: 0
+                    },
+                    borderRadius: 3,
+                    backgroundColor: "white",
+                    marginBottom: 10,
+                    width: this.calculateItemWidth(),
+                    height: this.calculateItemHeight()
+                }}>
+                    {/* <Image
+                        style={{ marginLeft: 5, marginTop: 5, resizeMode: "stretch", width: this.calculateItemWidth() - 10, height: this.calculateItemHeight() - 10 }}
+                        source={getImageForStationId(index + 1)}></Image> */}
+                </View>
+            </TouchableHighlight>
         </View>
-    </View>
-)
-render() {
-    return (
-        <View onLayout={(event) => {
-            this.setState({
-                mainViewWidth: event.nativeEvent.layout.width
-            })
-        }} style={{ flex: 1, backgroundColor: "#C9D5E1" }}>
-            <GridList style={{
+    )
 
-                marginLeft: 20,
-                marginBottom: 20
-            }}
-                showSeparator
-                data={this.state.stations}
-                numColumns={2}
-                renderItem={this.renderItem}
-            />
-        </View>)
+    streamSelectedStation() {
+        TrackPlayer.reset();
+        TrackPlayer.setupPlayer({});
 
-}
-
-getImageForStation(stationId) {
-    alert(stationId)
-    switch (stationId) {
-        case 1: {
-            return require('../resources/images/redfm.jpeg')
-        }
-        case 2: {
-            return require('../resources/images/redfm.jpeg')
-        }
-        case 3: {
-            return require('../resources/images/redfm.jpeg')
-        }
-        case 4: {
-            return require('../resources/images/redfm.jpeg')
-        }
-        case 5: {
-            return require('../resources/images/redfm.jpeg')
-        }
+        TrackPlayer.add({
+            id: this.state.selectedStation + "",
+            url: this.state.selectedStation.streamingURL, // just for test!
+            title: this.state.selectedStation.name,
+            artist: ""
+        });
+        TrackPlayer.play();
     }
-}
+    render() {
+        return (
+            <View onLayout={(event) => {
+                this.setState({
+                    mainViewWidth: event.nativeEvent.layout.width
+                })
+            }} style={{ flex: 1, backgroundColor: "white" }}>
+                <GridList style={{
+
+                    paddingLeft: 10,
+                    marginLeft: 20,
+                    marginBottom: 20
+                }}
+                    showSeparator
+                    data={this.state.stations}
+                    numColumns={2}
+                    renderItem={this.renderItem}
+                />
+                <MiniPlayer 
+                station={this.state.selectedStation} />
+            </View>)
+
+    }
 }
