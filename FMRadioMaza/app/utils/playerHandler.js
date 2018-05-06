@@ -8,5 +8,9 @@ module.exports = async (data) => {
         // Again, we can forward this command to the player using
         //TrackPlayer.seekTo(data.position);
     }
+    if(data.type == 'playback-error') {
+        console.log("Error received")
+        console.log(JSON.stringify(data))
+    }
     // ...
 };

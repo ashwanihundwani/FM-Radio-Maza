@@ -6,24 +6,27 @@ import {
     TouchableOpacity, Image, Alert, Modal
 } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
-import ProgressBar from './ProgressBar';
-import { connect } from 'react-redux';
-import iconPlay from '../../resources/play_black.png';
-import iconPause from '../../resources/pause_black.png';
-import iconPrevious from '../../resources/prev_black.png';
-import iconNext from '../../resources/next_black.png';
-import sampleIcon from '../../resources/kitchen.jpg';
-import musicIcon from '../../resources/music.png';
+
+import iconPlay from '../resources/images/play_black.png';
+import iconPause from '../resources/images/pause_black.png';
+import iconPrevious from '../resources/images/prev_black.png';
+import iconNext from '../resources/images/next_black.png';
 import ImageButton from './ImageButton';
-import { navigateScreen, openNowPlaying } from '../../actions/action';
-import{bindActionCreators} from 'redux';
+import { getImageForStationId } from "../utils/utils";
+import ModalWrapper from 'react-native-modal-wrapper';
 
 const windowHeight = Dimensions.get('window').height;
-class NowPlayingModal extends Component {
+export default class NowPlayingModal extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            trackPlayerState: TrackPlayer.STATE_PLAYING
+        }
+    }
 
     _playPause() {
-        if (this.props.state == TrackPlayer.STATE_PAUSED) {
+        if (this.state.trackPlayerState === TrackPlayer.STATE_PAUSED) {
             TrackPlayer.play();
         } else {
             TrackPlayer.pause();
@@ -32,38 +35,41 @@ class NowPlayingModal extends Component {
 
     async _previous() {
         // TODO add tracks to the queue
-        TrackPlayer.skipToPrevious();
+        //TrackPlayer.skipToPrevious();
 
     }
 
     _next() {
         // TODO add tracks to the queue
-        TrackPlayer.skipToNext();
+       // TrackPlayer.skipToNext();
     }
 
     closeModal() {
         console.log("Closing model from component");
-        this.props.dispatch(openNowPlaying(false));
     }
 
     render() {
         return (
             <View>
-                <Modal visible={this.props.modalVisible}
-                    animationType={'slide'}
-                    onRequestClose={() => this.closeModal()}
-                    transparent={true}>
+                <ModalWrapper
+                containerStyle={{ flexDirection: 'row', alignItems: 'flex-end' }}
+                style={{ flex: 1, height: '50%', borderTopLeftRadius: 17, borderTopRightRadius: 17, }}
+                transparent={true}
+                visible={true}
+                animationType={'slide'}
+                shouldCloseOnOverlayPress={true}
+                shouldAnimateOnRequestClose={true}
+                shouldAnimateOnOverlayPress={true}
+                onRequestClose={() => this.props.onModalClose()}>
+
                     <View style={styles.dialogContainer}>
                         <View style={styles.dialog}>
-                            <Text style={{ alignSelf: 'center', paddingTop: 20, fontSize: 10, fontWeight: 'bold' }}
-                                onPress={() => this.closeModal()}>
-                                Press to View the list</Text>
                             <Image style={styles.modalImage}
-                                source={this.props ? this.props.track ? { uri: this.props.track.artwork } : { musicIcon } : { musicIcon }}>
+                                source={getImageForStationId(this.props.station.id)}>
                             </Image>
                             <Text style={styles.songTitle}>
-                                {this.props ? this.props.track ? this.props.track.title : "Unknown" : "Unknown"}</Text>
-                            <ProgressBar />
+                                {this.props.station.name}</Text>
+                            
 
                             <View style={styles.controls}>
                                 <ImageButton
@@ -84,10 +90,8 @@ class NowPlayingModal extends Component {
                                 />
                             </View>
                         </View>
-
                     </View>
-
-                </Modal>
+                </ModalWrapper>
             </View>
         );
     }
@@ -98,7 +102,9 @@ const styles = StyleSheet.create({
         width: 120,
         height: 120,
         borderRadius: 60,
-        marginTop: 10
+        marginTop: 20,
+        borderColor:"gray",
+        borderWidth:2,
     },
 
     dialogContainer: {
@@ -117,7 +123,7 @@ const styles = StyleSheet.create({
     },
     songTitle: {
         alignSelf: 'center',
-        marginTop: 10,
+        marginTop: 20,
         fontSize: 15,
         fontWeight: 'bold'
     },
@@ -142,19 +148,3 @@ const styles = StyleSheet.create({
     }
 });
 
-function mapDispatchToProps(dispatch) {
-    let actions = bindActionCreators({ openNowPlaying,navigateScreen });
-    return { ...actions, dispatch };
-  }
-
-function mapStateToProps(state) {
-    const currentTrack = state.playback.currentTrack;
-    const currentTracks = state.playback.dataTracks;
-
-    return {
-        track: currentTracks ? currentTracks.find((track) => track.id == currentTrack) : null,
-        state: state.playback.state
-    };
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(NowPlayingModal);

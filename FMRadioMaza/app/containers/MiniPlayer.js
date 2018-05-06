@@ -19,10 +19,17 @@ export default class MiniPlayer extends Component {
     }
 
     _togglePlayPause() {
+        alert("ddd")
         if(this.state.trackPlayerState == TrackPlayer.STATE_PAUSED) {
             TrackPlayer.play();
+            this.setState({
+                trackPlayerState:TrackPlayer.STATE_PLAYING
+            })
         } else {
             TrackPlayer.pause();
+            this.setState({
+                trackPlayerState:TrackPlayer.STATE_PAUSED
+            })
         }
     }
 
@@ -44,7 +51,7 @@ export default class MiniPlayer extends Component {
                             />
                             <View style={styles.info}>
                                 <Text style={styles.title}>{this.props.station.name}</Text>
-                                </View>
+                            </View>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this._togglePlayPause.bind(this)}>
@@ -64,7 +71,7 @@ export default class MiniPlayer extends Component {
 const styles = StyleSheet.create({
     player: {
         elevation: 5,
-        backgroundColor: '#c8c8c8'
+        backgroundColor: 'black'
     },
     content: {
         flexDirection: 'row',
@@ -79,7 +86,8 @@ const styles = StyleSheet.create({
     },
     metadata: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent:"space-between"
     },
     artwork: {
         width: 50,
@@ -93,8 +101,9 @@ const styles = StyleSheet.create({
     },
     title: {
         color: '#e6e6e6',
-        fontSize: 16,
-        fontWeight: '500'
+        fontSize: 15,
+        fontWeight: '500',
+        marginRight:10
     },
     artist: {
         color: '#9a9a9a',

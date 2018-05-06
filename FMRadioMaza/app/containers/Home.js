@@ -8,6 +8,16 @@ import GridList from 'react-native-grid-list';
 import TrackPlayer from 'react-native-track-player';
 import MiniPlayer from '../containers/MiniPlayer'
 import { YellowBox } from 'react-native';
+import WebApi from '../libs/webApi'
+import renderIf from '../utils/renderIf'
+import NowPlayingModal from '../containers/NowPlayingModal'
+// import {
+//     AdMobBanner,
+//     AdMobInterstitial,
+//     PublisherBanner,
+//     AdMobRewarded,
+// } from 'react-native-admob'
+
 
 import { getImageForStationId } from '../utils/utils'
 
@@ -21,17 +31,18 @@ export default class Home extends Component {
             stations: require('../resources/docs/radiostations.json'),
             mainViewWidth: 0
         }
+
+        this.onModalClose = this.onModalClose.bind(this)
     }
     componentDidMount() {
         YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
-        
         this.streamSelectedStation()
     }
 
     componentWillMount() {
 
         this.setState({
-            selectedStation:this.state.stations[0]
+            selectedStation: this.state.stations[0]
         })
     }
 
@@ -48,7 +59,8 @@ export default class Home extends Component {
             <TouchableHighlight
                 onPress={() => {
                     this.setState({
-                        selectedStation:item
+                        selectedStation: item,
+                        showModalPlayer: true
                     })
                     this.streamSelectedStation()
                 }}>
@@ -67,25 +79,34 @@ export default class Home extends Component {
                     width: this.calculateItemWidth(),
                     height: this.calculateItemHeight()
                 }}>
-                    {/* <Image
+                    <Image
                         style={{ marginLeft: 5, marginTop: 5, resizeMode: "stretch", width: this.calculateItemWidth() - 10, height: this.calculateItemHeight() - 10 }}
-                        source={getImageForStationId(index + 1)}></Image> */}
+                        source={getImageForStationId(item.id)}></Image>
                 </View>
             </TouchableHighlight>
         </View>
     )
 
     streamSelectedStation() {
+        console.log("STATION INFO: " + JSON.stringify(this.state.selectedStation))
         TrackPlayer.reset();
-        TrackPlayer.setupPlayer({});
+        TimerMixin.setTimeout(() => {
+            TrackPlayer.setupPlayer({});
 
-        TrackPlayer.add({
-            id: this.state.selectedStation + "",
-            url: this.state.selectedStation.streamingURL, // just for test!
-            title: this.state.selectedStation.name,
-            artist: ""
-        });
-        TrackPlayer.play();
+            TrackPlayer.add({
+                id: this.state.selectedStation + "",
+                url: this.state.selectedStation.streamingURL, //this.state.selectedStation.streamingURL, // just for test!
+                title: this.state.selectedStation.name,
+                artist: ""
+            });
+            TrackPlayer.play();
+        }, 500)
+    }
+
+    onModalClose() {
+        this.setState({
+            showModalPlayer: false
+        })
     }
     render() {
         return (
@@ -105,8 +126,23 @@ export default class Home extends Component {
                     numColumns={2}
                     renderItem={this.renderItem}
                 />
-                <MiniPlayer 
-                station={this.state.selectedStation} />
+                {renderIf(this.state.showModalPlayer === false,
+                    <MiniPlayer
+                        station={this.state.selectedStation} />
+                )}
+
+                {renderIf(this.state.showModalPlayer === true,
+                    <NowPlayingModal onModalClose={this.onModalClose} station={this.state.selectedStation} />
+                )}
+
+                {/* <AdMobBanner
+                    adSize="fullBanner"
+                    adUnitID="ca-app-pub-3940256099942544/6300978111"
+                    testDevices={[AdMobBanner.simulatorId]}
+                    onAdFailedToLoad={error => console.error(error)}
+                /> */}
+
+
             </View>)
 
     }
