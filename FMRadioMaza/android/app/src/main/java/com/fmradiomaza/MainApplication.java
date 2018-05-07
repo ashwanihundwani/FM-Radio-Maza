@@ -7,10 +7,12 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import guichaguri.trackplayer.TrackPlayer;
 
 import java.util.Arrays;
 import java.util.List;
+import com.sbugert.rnadmob.RNAdMobPackage;
+import guichaguri.trackplayer.TrackPlayer;
+
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -24,7 +26,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+          new RNAdMobPackage(),
           new TrackPlayer()
+          
       );
     }
 

@@ -11,12 +11,12 @@ import { YellowBox } from 'react-native';
 import WebApi from '../libs/webApi'
 import renderIf from '../utils/renderIf'
 import NowPlayingModal from '../containers/NowPlayingModal'
-// import {
-//     AdMobBanner,
-//     AdMobInterstitial,
-//     PublisherBanner,
-//     AdMobRewarded,
-// } from 'react-native-admob'
+import {
+    AdMobBanner,
+    AdMobInterstitial,
+    PublisherBanner,
+    AdMobRewarded,
+} from 'react-native-admob'
 
 
 import { getImageForStationId } from '../utils/utils'
@@ -29,10 +29,12 @@ export default class Home extends Component {
 
         this.state = {
             stations: require('../resources/docs/radiostations.json'),
-            mainViewWidth: 0
+            mainViewWidth: 0,
+            showModalPlayer:false
         }
 
         this.onModalClose = this.onModalClose.bind(this)
+        this.adFailedToLoad = this.adFailedToLoad.bind(this)
     }
     componentDidMount() {
         YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
@@ -44,6 +46,12 @@ export default class Home extends Component {
         this.setState({
             selectedStation: this.state.stations[0]
         })
+    }
+
+    adFailedToLoad(error) {
+
+        alert(error)
+
     }
 
     calculateItemWidth() {
@@ -135,12 +143,11 @@ export default class Home extends Component {
                     <NowPlayingModal onModalClose={this.onModalClose} station={this.state.selectedStation} />
                 )}
 
-                {/* <AdMobBanner
+                <AdMobBanner
                     adSize="fullBanner"
                     adUnitID="ca-app-pub-3940256099942544/6300978111"
-                    testDevices={[AdMobBanner.simulatorId]}
-                    onAdFailedToLoad={error => console.error(error)}
-                /> */}
+                    onAdFailedToLoad={this.adFailedToLoad}
+                />
 
 
             </View>)
