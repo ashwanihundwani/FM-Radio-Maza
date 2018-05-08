@@ -17,6 +17,7 @@ import {
     PublisherBanner,
     AdMobRewarded,
 } from 'react-native-admob'
+import {connectedToNetwork, observeNetworkConnection} from '../utils/utils'
 
 
 import { getImageForStationId } from '../utils/utils'
@@ -30,7 +31,8 @@ export default class Home extends Component {
         this.state = {
             stations: require('../resources/docs/radiostations.json'),
             mainViewWidth: 0,
-            showModalPlayer:false
+            showModalPlayer:false,
+            showAdBanner:true
         }
 
         this.onModalClose = this.onModalClose.bind(this)
@@ -39,6 +41,21 @@ export default class Home extends Component {
     componentDidMount() {
         YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
         //this.streamSelectedStation(this.state.stations[0])
+        observeNetworkConnection((networkConnected)=> {
+            
+            if(networkConnected === true) {
+                this.setState({
+                    showAdBanner:true
+
+                })
+            }
+            else {
+                this.setState({
+                    showAdBanner:false
+                })
+            }
+
+        })
     }
 
     componentWillMount() {
@@ -49,8 +66,9 @@ export default class Home extends Component {
     }
 
     adFailedToLoad(error) {
-
-        alert(error)
+        this.setState({
+            showAdBanner:false
+        })
 
     }
 
@@ -148,11 +166,14 @@ export default class Home extends Component {
                     <NowPlayingModal onModalClose={this.onModalClose} station={this.state.selectedStation} />
                 )}
 
+                {renderIf(this.state.showAdBanner === true 
+                && connectedToNetwork() === true,
                 <AdMobBanner
                     adSize="fullBanner"
                     adUnitID="ca-app-pub-3940256099942544/6300978111"
                     onAdFailedToLoad={this.adFailedToLoad}
-                />
+                    
+                />)}
 
 
             </View>)

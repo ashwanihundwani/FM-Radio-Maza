@@ -1,6 +1,8 @@
 import React from 'react';
 import {Platform, NetInfo, Alert, AsyncStorage} from 'react-native'
 
+let networkObserveCallback = ''
+
 export function isPlatFormAndroid() {
     return Platform.OS === "android"
 }
@@ -132,3 +134,34 @@ export function getImageForStationId(stationId) {
     }
 
 }
+
+export function connectedToNetwork() {
+    return isNetworkConnected
+}
+
+export function observeNetworkConnection(callback) {
+    networkObserveCallback = callback
+}
+
+
+function observeNetworkConnectivity() {
+    
+        console.log("Network observer initialized...") 
+        NetInfo.isConnected.fetch().then(isConnected => {        
+            isNetworkConnected = isConnected      
+            networkObserveCallback(isNetworkConnected)
+            console.log("Network Connected: " + isNetworkConnected) 
+        });
+            
+        NetInfo.isConnected.addEventListener('connectionChange', (connectionInfo) => {
+    
+            console.log("Network connection changed") 
+            NetInfo.isConnected.fetch().then(isConnected => {        
+                isNetworkConnected = isConnected    
+                networkObserveCallback(isNetworkConnected)
+                console.log("Network Connected: " + isNetworkConnected)     
+            });
+        })
+    }
+    
+    observeNetworkConnectivity()
