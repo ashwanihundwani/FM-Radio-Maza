@@ -38,7 +38,7 @@ export default class Home extends Component {
     }
     componentDidMount() {
         YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
-        this.streamSelectedStation()
+        //this.streamSelectedStation(this.state.stations[0])
     }
 
     componentWillMount() {
@@ -66,11 +66,16 @@ export default class Home extends Component {
         <View>
             <TouchableHighlight
                 onPress={() => {
+
+                    let oldSelectedStation = this.state.selectedStation
                     this.setState({
                         selectedStation: item,
                         showModalPlayer: true
                     })
-                    this.streamSelectedStation()
+                    if(oldSelectedStation !== item){
+                        this.streamSelectedStation(item)
+                    }
+                    
                 }}>
                 <View style={{
                     shadowColor: "#808080",
@@ -95,16 +100,16 @@ export default class Home extends Component {
         </View>
     )
 
-    streamSelectedStation() {
-        console.log("STATION INFO: " + JSON.stringify(this.state.selectedStation))
+    streamSelectedStation(item) {
+        console.log("STATION INFO: " + JSON.stringify(item))
         TrackPlayer.reset();
         TimerMixin.setTimeout(() => {
             TrackPlayer.setupPlayer({});
 
             TrackPlayer.add({
-                id: this.state.selectedStation + "",
-                url: this.state.selectedStation.streamingURL, //this.state.selectedStation.streamingURL, // just for test!
-                title: this.state.selectedStation.name,
+                id: item + "",
+                url: item.streamingURL, //this.state.selectedStation.streamingURL, // just for test!
+                title: item.name,
                 artist: ""
             });
             TrackPlayer.play();

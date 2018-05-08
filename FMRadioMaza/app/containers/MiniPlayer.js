@@ -46,7 +46,7 @@ export default class MiniPlayer extends Component {
                     <TouchableOpacity style={styles.wide} onPress={this._openNowPlaying.bind(this)}>
                         <View style={styles.metadata}>
                             <Image
-                                source={getImageForStationId(this.props.station.id)}
+                                /*source={getImageForStationId(this.props.station.id)}*/
                                 style={styles.artwork}
                             />
                             <View style={styles.info}>

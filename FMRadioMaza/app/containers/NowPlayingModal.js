@@ -65,7 +65,7 @@ export default class NowPlayingModal extends Component {
                     <View style={styles.dialogContainer}>
                         <View style={styles.dialog}>
                             <Image style={styles.modalImage}
-                                source={getImageForStationId(this.props.station.id)}>
+                                /*source={getImageForStationId(this.props.station.id)}*/>
                             </Image>
                             <Text style={styles.songTitle}>
                                 {this.props.station.name}</Text>

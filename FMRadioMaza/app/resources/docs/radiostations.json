@@ -7,7 +7,7 @@
     {
         "id": 2,
         "name": "Radio Mirchi 98.3",
-        "streamingURL": "http://peridot.streamguys.com:7150/Mirchi.m3u"
+        "streamingURL": "http://peridot.streamguys.com:7150/Mirchi"
     },
     {
         "id": 3,
@@ -22,17 +22,17 @@
     {
         "id": 5,
         "name": "Radio City Hindi",
-        "streamingURL": "http://prclive1.listenon.in:9960/listen.pls"
+        "streamingURL": "http://prclive1.listenon.in:9960/"
     },
     {
         "id": 6,
         "name": "City 1016",
-        "streamingURL": "http://playerservices.streamtheworld.com/pls/ARNCITY.pls"
+        "streamingURL": "http://20073.live.streamtheworld.com/ARNCITY_SC"
     },
     {
         "id": 20,
         "name": "Radio City 91.1 FM",
-        "streamingURL": "http://prclive1.listenon.in:9960/listen.pls"
+        "streamingURL": "http://prclive1.listenon.in:9960/"
     },
     {
         "id": 11,
