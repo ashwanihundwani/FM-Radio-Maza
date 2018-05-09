@@ -1,4 +1,5 @@
 module.exports = async (data) => {
+    console.log("Playback State: " + JSON.stringify(data))
     if(data.type == 'playback-state') {
         // Update the UI with the new state
     } else if(data.type == 'remote-play') {

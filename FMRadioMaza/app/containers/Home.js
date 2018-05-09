@@ -39,6 +39,14 @@ export default class Home extends Component {
         this.adFailedToLoad = this.adFailedToLoad.bind(this)
     }
     componentDidMount() {
+
+
+        console.log(TrackPlayer.STATE_NONE)
+        console.log(TrackPlayer.STATE_STOPPED)
+        console.log(TrackPlayer.STATE_PAUSED)
+        console.log(TrackPlayer.STATE_PLAYING)
+        console.log(TrackPlayer.STATE_BUFFERING)
+        
         YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
         //this.streamSelectedStation(this.state.stations[0])
         observeNetworkConnection((networkConnected)=> {

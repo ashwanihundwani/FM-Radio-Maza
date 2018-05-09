@@ -3,6 +3,8 @@ import {Platform, NetInfo, Alert, AsyncStorage} from 'react-native'
 
 let networkObserveCallback = ''
 
+var isNetworkConnected = false;
+
 export function isPlatFormAndroid() {
     return Platform.OS === "android"
 }
