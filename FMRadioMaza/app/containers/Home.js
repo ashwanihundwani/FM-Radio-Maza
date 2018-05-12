@@ -38,22 +38,9 @@ export default class Home extends Component {
 
         this.onModalClose = this.onModalClose.bind(this)
         this.adFailedToLoad = this.adFailedToLoad.bind(this)
+        this.showFullAd = this.showFullAd.bind(this)
     }
     componentDidMount() {
-
-        TimerMixin.setTimeout(()=> {
-
-            // Display an interstitial
-        AdMobInterstitial.setAdUnitID("ca-app-pub-3940256099942544/1033173712");
-        AdMobInterstitial.setTestDevices([AdMobInterstitial.simulatorId]);
-        AdMobInterstitial.requestAd().then(() => 
-        AdMobInterstitial.showAd()
-        ).catch((error)=>{
-
-            console.log(JSON.stringify(error))
-
-        });
-        }, 10000)
 
         console.log(TrackPlayer.STATE_NONE)
         console.log(TrackPlayer.STATE_STOPPED)
@@ -78,6 +65,18 @@ export default class Home extends Component {
             }
 
         })
+    }
+
+    showFullAd() {
+        AdMobInterstitial.setAdUnitID("ca-app-pub-3940256099942544/1033173712");
+        AdMobInterstitial.setTestDevices([AdMobInterstitial.simulatorId]);
+        AdMobInterstitial.requestAd().then(() => 
+        AdMobInterstitial.showAd()
+        ).catch((error)=>{
+
+            console.log(JSON.stringify(error))
+
+        });
     }
 
     componentWillMount() {
@@ -187,7 +186,7 @@ export default class Home extends Component {
                 )}
 
                 {renderIf(this.state.showModalPlayer === true,
-                    <NowPlayingModal onModalClose={this.onModalClose} station={this.state.selectedStation} />
+                    <NowPlayingModal  showFullAd={this.showFullAd} onModalClose={this.onModalClose} station={this.state.selectedStation} />
                 )}
 
                 {renderIf(this.state.showAdBanner === true 

@@ -83,7 +83,7 @@ export default class NowPlayingModal extends Component {
     render() {
         return (
             <View>
-                <ModalWrapper
+                {/* <ModalWrapper
                     containerStyle={{ flexDirection: 'row', alignItems: 'flex-end' }}
                     style={{ flex: 1, height: '50%', borderTopLeftRadius: 17, borderTopRightRadius: 17, }}
                     transparent={true}
@@ -92,9 +92,14 @@ export default class NowPlayingModal extends Component {
                     shouldCloseOnOverlayPress={true}
                     shouldAnimateOnRequestClose={true}
                     shouldAnimateOnOverlayPress={true}
-                    onRequestClose={() => this.props.onModalClose()}>
+                    onRequestClose={() => this.props.onModalClose()}> */}
 
                     <View style={styles.dialogContainer}>
+                    <TouchableHighlight onPress={()=>
+                    this.props.onModalClose()
+                    } style={{height:150, backgroundColor:'rgba(52, 52, 52, 0.8)'}}>
+                        <View />
+                    </TouchableHighlight>
                         <View style={styles.dialog}>
                             <Image style={styles.modalImage}
                                 /*source={getImageForStationId(this.props.station.id)}*/>
@@ -130,7 +135,7 @@ export default class NowPlayingModal extends Component {
                             </View>
                         </View>
                     </View>
-                </ModalWrapper>
+                {/* </ModalWrapper> */}
             </View>
         );
     }
