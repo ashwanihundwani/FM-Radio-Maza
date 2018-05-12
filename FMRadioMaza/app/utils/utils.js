@@ -1,7 +1,8 @@
 import React from 'react';
 import {Platform, NetInfo, Alert, AsyncStorage} from 'react-native'
+import Constants from '../utils/constants'
 
-let networkObserveCallback = ''
+let networkObserveCallback = undefined
 
 var isNetworkConnected = false;
 
@@ -137,21 +138,14 @@ export function getImageForStationId(stationId) {
 
 }
 
-export function connectedToNetwork() {
-    return isNetworkConnected
-}
-
-export function observeNetworkConnection(callback) {
-    networkObserveCallback = callback
-}
-
-
 function observeNetworkConnectivity() {
     
         console.log("Network observer initialized...") 
         NetInfo.isConnected.fetch().then(isConnected => {        
-            isNetworkConnected = isConnected      
-            networkObserveCallback(isNetworkConnected)
+            isNetworkConnected = isConnected   
+            if(networkObserveCallback !== undefined) {
+                networkObserveCallback(isNetworkConnected)
+            }    
             console.log("Network Connected: " + isNetworkConnected) 
         });
             
@@ -160,10 +154,100 @@ function observeNetworkConnectivity() {
             console.log("Network connection changed") 
             NetInfo.isConnected.fetch().then(isConnected => {        
                 isNetworkConnected = isConnected    
-                networkObserveCallback(isNetworkConnected)
+                if(networkObserveCallback !== undefined) {
+                    networkObserveCallback(isNetworkConnected)
+                }       
                 console.log("Network Connected: " + isNetworkConnected)     
             });
         })
-    }
+}
     
-    observeNetworkConnectivity()
+observeNetworkConnectivity()
+
+export function connectedToNetwork() {
+    return isNetworkConnected
+}
+
+export function observeNetworkConnection(callback) {
+    networkObserveCallback = callback
+}
+
+export function getRecentlyVisitedStations(callback) {
+
+    AsyncStorage.getItem(Constants.RECENTLY_PLAYED_STORAGE_KEY).then((value) => {
+        callback(value)
+    })
+}
+
+export function getFavouriteStations(callback) {
+    AsyncStorage.getItem(Constants.FAVOURITE_STATIONS_STORAGE_KEY).then((value) => {
+        callback(value)
+    })
+
+    
+}
+
+function saveFavouriteStations(favouriteStations) {
+    AsyncStorage.setItem(Constants.FAVOURITE_STATIONS_STORAGE_KEY, JSON.stringify(favouriteStations))
+}
+
+function saveRecentlyPlayedStations(recentStations) {
+    AsyncStorage.setItem(Constants.RECENTLY_PLAYED_STORAGE_KEY,  JSON.stringify(recentStations))
+}
+
+function stationExists(stations, station) {
+    if(stations.length === 0) {
+        return false
+    }
+    for (var i = stations.length - 1; i > -1; i--) {
+        if (stations[i].id === station.id){
+            return true
+        }
+    }
+
+    return false
+}
+
+
+export function addToFavourites(station) {
+    getFavouriteStations((value)=> {
+
+        var favourites = null
+        if(value === null) {
+            var favourites = []
+        }
+        else {
+            favourites = JSON.parse(value)
+        }
+        if (stationExists(favourites, station) === false) {
+            stations.splice(0, 0, station) 
+            saveFavouriteStations(favourites)
+        }
+    })
+}
+
+export function addToRecentlyPlayed(station) {
+    getRecentlyVisitedStations((value)=> {
+
+        var stations = null
+        if(value === null) {
+            var stations = []
+        }
+        else {
+            stations = JSON.parse(value)
+        }
+        
+        if (stationExists(stations, station) === false) {
+            
+            stations.splice(0, 0, station) 
+            stations = stations.slice(0, Constants.RECENTLY_PLAYED_LIMIT)
+            saveRecentlyPlayedStations(stations)
+        }
+        
+    })
+}
+
+getRecentlyVisitedStations((stations)=> {
+    console.log("Recent Stations: " + stations)
+})
+

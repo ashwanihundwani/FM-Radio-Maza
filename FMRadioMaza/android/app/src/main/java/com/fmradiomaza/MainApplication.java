@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import com.sbugert.rnadmob.RNAdMobPackage;
 import guichaguri.trackplayer.TrackPlayer;
-
+import com.ninty.system.setting.SystemSettingPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -27,7 +27,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
           new RNAdMobPackage(),
-          new TrackPlayer()
+          new TrackPlayer(),
+          new SystemSettingPackage()
           
       );
     }

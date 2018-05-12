@@ -3,21 +3,22 @@ import {
     TouchableHighlight, AsyncStorage, Color, BackHandler, NativeEventEmitter, NativeModules
 } from 'react-native';
 import React, { Component } from 'react';
-import TimerMixin from 'react-timer-mixin';
-import GridList from 'react-native-grid-list';
-import TrackPlayer from 'react-native-track-player';
-import MiniPlayer from '../containers/MiniPlayer'
-import { YellowBox } from 'react-native';
-import WebApi from '../libs/webApi'
-import renderIf from '../utils/renderIf'
-import NowPlayingModal from '../containers/NowPlayingModal'
 import {
     AdMobBanner,
     AdMobInterstitial,
     PublisherBanner,
     AdMobRewarded,
 } from 'react-native-admob'
-import {connectedToNetwork, observeNetworkConnection} from '../utils/utils'
+import TimerMixin from 'react-timer-mixin';
+import GridList from 'react-native-grid-list';
+import TrackPlayer from 'react-native-track-player';
+import { YellowBox } from 'react-native';
+
+import MiniPlayer from '../containers/MiniPlayer'
+import WebApi from '../libs/webApi'
+import renderIf from '../utils/renderIf'
+import NowPlayingModal from '../containers/NowPlayingModal'
+import {connectedToNetwork, observeNetworkConnection, addToRecentlyPlayed} from '../utils/utils'
 
 
 import { getImageForStationId } from '../utils/utils'
@@ -40,6 +41,19 @@ export default class Home extends Component {
     }
     componentDidMount() {
 
+        TimerMixin.setTimeout(()=> {
+
+            // Display an interstitial
+        AdMobInterstitial.setAdUnitID("ca-app-pub-3940256099942544/1033173712");
+        AdMobInterstitial.setTestDevices([AdMobInterstitial.simulatorId]);
+        AdMobInterstitial.requestAd().then(() => 
+        AdMobInterstitial.showAd()
+        ).catch((error)=>{
+
+            console.log(JSON.stringify(error))
+
+        });
+        }, 10000)
 
         console.log(TrackPlayer.STATE_NONE)
         console.log(TrackPlayer.STATE_STOPPED)
@@ -101,6 +115,8 @@ export default class Home extends Component {
                     if(oldSelectedStation !== item){
                         this.streamSelectedStation(item)
                     }
+                    addToRecentlyPlayed(item)
+
                     
                 }}>
                 <View style={{

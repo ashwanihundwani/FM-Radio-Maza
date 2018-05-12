@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import {
-    View, ScrollView, Text, StatusBar,
+    Slider, View, ScrollView, Text, StatusBar,
     Button, StyleSheet, FlatList,
     TouchableHighlight, Dimensions, ActivityIndicator,
     TouchableOpacity, Image, Alert, Modal
 } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
+
+import TimerMixin from 'react-timer-mixin';
 
 import iconPlay from '../resources/images/play_black.png';
 import iconPause from '../resources/images/pause_black.png';
@@ -14,53 +16,83 @@ import iconNext from '../resources/images/next_black.png';
 import ImageButton from './ImageButton';
 import { getImageForStationId } from "../utils/utils";
 import ModalWrapper from 'react-native-modal-wrapper';
+import SystemSetting from 'react-native-system-setting'
+import {
+    AdMobBanner,
+    AdMobInterstitial,
+    PublisherBanner,
+    AdMobRewarded,
+} from 'react-native-admob'
 
 const windowHeight = Dimensions.get('window').height;
 export default class NowPlayingModal extends Component {
 
+
     constructor(props) {
         super(props)
         this.state = {
-            trackPlayerState: TrackPlayer.STATE_PLAYING
+            trackPlayerState: TrackPlayer.STATE_PLAYING,
+            currentVolume: 0,
+            volumeListener: undefined,
+            showAdBanner:true
         }
+
+        //get the current volume
+        SystemSetting.getVolume().then((volume) => {
+            this.setState({
+                currentVolume: volume
+            })
+        });
+
+
+        // listen the volume changing if you need
+        this.state.volumeListener = SystemSetting.addVolumeListener((data) => {
+            const volume = data.value;
+            this.setState({
+                currentVolume: volume
+            })
+        });
     }
 
+
     _playPause() {
+        // change the volume
+
         if (this.state.trackPlayerState === TrackPlayer.STATE_PAUSED) {
             TrackPlayer.play();
         } else {
+
             TrackPlayer.pause();
+            this.props.showFullAd()
         }
     }
 
     async _previous() {
         // TODO add tracks to the queue
         //TrackPlayer.skipToPrevious();
+        this.props.showFullAd()
 
     }
 
     _next() {
         // TODO add tracks to the queue
-       // TrackPlayer.skipToNext();
-    }
-
-    closeModal() {
-        console.log("Closing model from component");
+        // TrackPlayer.skipToNext();
+        this.props.showFullAd()
     }
 
     render() {
         return (
             <View>
                 <ModalWrapper
-                containerStyle={{ flexDirection: 'row', alignItems: 'flex-end' }}
-                style={{ flex: 1, height: '50%', borderTopLeftRadius: 17, borderTopRightRadius: 17, }}
-                transparent={true}
-                visible={true}
-                animationType={'slide'}
-                shouldCloseOnOverlayPress={true}
-                shouldAnimateOnRequestClose={true}
-                shouldAnimateOnOverlayPress={true}
-                onRequestClose={() => this.props.onModalClose()}>
+                    containerStyle={{ flexDirection: 'row', alignItems: 'flex-end' }}
+                    style={{ flex: 1, height: '50%', borderTopLeftRadius: 17, borderTopRightRadius: 17, }}
+                    transparent={true}
+                    visible={true}
+                    animationType={'none'}
+                    shouldCloseOnOverlayPress={true}
+                    shouldAnimateOnRequestClose={true}
+                    shouldAnimateOnOverlayPress={true}
+                    onRequestClose={() => this.props.onModalClose()}>
 
                     <View style={styles.dialogContainer}>
                         <View style={styles.dialog}>
@@ -69,8 +101,15 @@ export default class NowPlayingModal extends Component {
                             </Image>
                             <Text style={styles.songTitle}>
                                 {this.props.station.name}</Text>
-                            
 
+                            <Slider
+                                style={{ width: 200 }}
+                                step={0.1}
+                                maximumValue={1.0}
+                                minimumValue={0.0}
+                                onValueChange={(value) => SystemSetting.setVolume(value)}
+                                value={this.state.currentVolume}
+                            />
                             <View style={styles.controls}>
                                 <ImageButton
                                     source={iconPrevious}
@@ -95,6 +134,11 @@ export default class NowPlayingModal extends Component {
             </View>
         );
     }
+
+    componentWillUnmount() {
+        SystemSetting.removeListener(this.state.volumeListener)
+        console.log("Volume listener removed")
+    }
 }
 
 const styles = StyleSheet.create({
@@ -103,8 +147,8 @@ const styles = StyleSheet.create({
         height: 120,
         borderRadius: 60,
         marginTop: 20,
-        borderColor:"gray",
-        borderWidth:2,
+        borderColor: "gray",
+        borderWidth: 2,
     },
 
     dialogContainer: {
