@@ -10,7 +10,8 @@ import React from 'react'
 import { Text, Animated, Easing } from 'react-native'
 import { StackNavigator, DrawerNavigator } from 'react-navigation'
 import DrawerContainer from './app/containers/Drawer/DrawerContainer'
-import Home from './app/containers/Home'
+import RadioIndex from './app/containers/RadioIndex'
+import Stations from './app/containers/Stations'
 
 const noTransitionConfig = () => ({
   transitionSpec: {
@@ -22,14 +23,15 @@ const noTransitionConfig = () => ({
 
 // drawer stack
 const DrawerStack = DrawerNavigator({
-  Home: { screen: Home, navigationOptions: { title: "FM Radio Maza" } },
+  RadioIndex: { screen: RadioIndex, navigationOptions: { title: "FM Radio Maza" } },
+  Stations : { screen: Stations},
 
 }, {
     gesturesEnabled: false,
     drawerOpenRoute: "DrawerOpen",
     drawerCloseRoute: "DrawerClose",
     drawerToggleRoute: "DrawerToggle",
-    drawerBackgroundColor: "gray",
+    drawerBackgroundColor: "white",
     contentComponent: DrawerContainer,
     drawerWidth: 210
   })
@@ -44,9 +46,9 @@ const DrawerNavigation = StackNavigator({
 }, {
     headerMode: 'float',
     navigationOptions: ({ navigation }) => ({
-      headerStyle: { backgroundColor: '#a1b4d4' },
+      headerStyle: { backgroundColor: 'white' },
       headerTitleStyle: { fontWeight: "600", fontSize: 13 },
-      headerTintColor: "white",
+      headerTintColor: "black",
       title: "FM Radio Maza",
       gesturesEnabled: false,
       headerLeft: <TouchableHighlight underlayColor='#a1b4d4' onPress={() => {
@@ -55,7 +57,7 @@ const DrawerNavigation = StackNavigator({
         } else {
           navigation.navigate('DrawerClose')
         }
-      }} style={getIconStyle()}><Icon type='font-awesome' color="white" name="bars" size={20}></Icon></TouchableHighlight>
+      }} style={getIconStyle()}><Icon type='font-awesome' color="black" name="bars" size={20}></Icon></TouchableHighlight>
     })
   })
 

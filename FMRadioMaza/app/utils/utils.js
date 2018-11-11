@@ -173,7 +173,6 @@ export function observeNetworkConnection(callback) {
 }
 
 export function getRecentlyVisitedStations(callback) {
-
     AsyncStorage.getItem(Constants.RECENTLY_PLAYED_STORAGE_KEY).then((value) => {
         callback(value)
     })
@@ -183,8 +182,6 @@ export function getFavouriteStations(callback) {
     AsyncStorage.getItem(Constants.FAVOURITE_STATIONS_STORAGE_KEY).then((value) => {
         callback(value)
     })
-
-    
 }
 
 function saveFavouriteStations(favouriteStations) {
@@ -197,15 +194,15 @@ function saveRecentlyPlayedStations(recentStations) {
 
 function stationExists(stations, station) {
     if(stations.length === 0) {
-        return false
+        return -1
     }
-    for (var i = stations.length - 1; i > -1; i--) {
+    for (var i = 0; i < stations.length; i++) {
         if (stations[i].id === station.id){
-            return true
+            return i
         }
     }
 
-    return false
+    return -1
 }
 
 
@@ -219,8 +216,8 @@ export function addToFavourites(station) {
         else {
             favourites = JSON.parse(value)
         }
-        if (stationExists(favourites, station) === false) {
-            stations.splice(0, 0, station) 
+        if (stationExists(favourites, station) === -1) {
+            favourites.splice(0, 0, station) 
             saveFavouriteStations(favourites)
         }
     })
@@ -236,14 +233,16 @@ export function addToRecentlyPlayed(station) {
         else {
             stations = JSON.parse(value)
         }
-        
-        if (stationExists(stations, station) === false) {
-            
-            stations.splice(0, 0, station) 
-            stations = stations.slice(0, Constants.RECENTLY_PLAYED_LIMIT)
-            saveRecentlyPlayedStations(stations)
+
+        const stationIndex = stationExists(stations, station)
+        //alert(stationIndex)
+        stations.splice(0, 0, station)
+        if (stationIndex !== -1) {  
+            stations.splice(stationIndex,1)     
         }
-        
+
+        stations = stations.slice(0, Constants.RECENTLY_PLAYED_LIMIT)
+        saveRecentlyPlayedStations(stations)
     })
 }
 

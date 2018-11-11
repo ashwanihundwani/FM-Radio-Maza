@@ -2,7 +2,9 @@ import React from 'react'
 import { StyleSheet, Text, View, Image, ScrollView, BackHandler } from 'react-native'
 import { Icon, } from 'react-native-elements'
 import { NavigationActions } from 'react-navigation'
+import { Share } from 'react-native';
 
+//We will ask you to rate us 5 star. If you feel this app is worth it, do rate us on app store. You can provide feedback by using "Give Feedback" option in menu"
 export default class DrawerContainer extends React.Component {
 
   constructor(props) {
@@ -40,10 +42,30 @@ export default class DrawerContainer extends React.Component {
     this.props.navigation.dispatch(actionToDispatch)
   }
 
+  shareApp() {
+    Share.share({
+      message: 'Listen music from best radio stations - Red FM, Radio Mirchi & many more. Download app from https://play.google.com/store/apps/details?id=com.css.selfhealing&hl=en',
+      url: undefined,
+      title: 'Best Radio Stations in India'
+    }, {
+      // Android only:
+      dialogTitle: 'FM Radio Maza',
+    })
+  }
+
+  addAppVersionItem(text) {
+    return (<View style={{marginTop:60}}>
+      <Text
+        style={styles.appVersionText}>
+        {text}
+      </Text>
+    </View>)
+  }
+
   addDrawerItem(text, icon, action) {
     return (<View><View style={styles.drawerItem}>
       <View style={styles.drawerItemIconContainer}>
-        <Icon name={icon} color="white" type='font-awesome' size={20} />
+        <Icon name={icon} color="black" type='font-awesome' size={20} />
       </View>
       <Text
         onPress={action}
@@ -58,15 +80,12 @@ export default class DrawerContainer extends React.Component {
     const { navigation } = this.props
     return (
       <ScrollView style={styles.container}>
-        {this.addDrawerItem("User", "user", ()=> navigation.navigate(''))}
-        {this.addDrawerItem("Home", "home", ()=> navigation.navigate('Home'))}
-        {this.addDrawerItem("Spaces", "th-large", ()=> navigation.navigate('Spaces'))}
-        {this.addDrawerItem("Routines", "calendar", ()=> navigation.navigate('CreateRoutine'))}
-        {this.addDrawerItem("Media", "music", ()=> navigation.navigate(''))}
-        {this.addDrawerItem("Notifications", "bell", ()=> navigation.navigate('Notifications'))}
-        {this.addDrawerItem("Devices & Sensors", "lightbulb-o", ()=> navigation.navigate(''))}
-        {this.addDrawerItem("Help", "question-circle", ()=> navigation.navigate('Help'))}
-        {this.addDrawerItem("Developer Options", "code", ()=> navigation.navigate('DeveloperOptions'))}
+        {this.addDrawerItem("Share App", "share", ()=> this.shareApp())}
+        {this.addDrawerItem("Give Feedback", "home", ()=> navigation.navigate('Home'))}
+        {this.addDrawerItem("Go Ads Free", "th-large", ()=> navigation.navigate('Spaces'))}
+        {this.addDrawerItem("About Us", "th-large", ()=> navigation.navigate('Spaces'))}
+        
+        {this.addAppVersionItem("Version 1.0.0")}
       </ScrollView>
     )
   }
@@ -101,7 +120,7 @@ const styles = StyleSheet.create({
     flex:1,
     fontSize: 14,
     fontWeight: '500',
-    color: 'white',
+    color: 'black',
     marginLeft: 15,
     paddingTop: 20,
     paddingBottom: 10
@@ -110,12 +129,22 @@ const styles = StyleSheet.create({
     flex:1,
     fontSize: 14,
     fontWeight: '300',
-    color: 'white',
+    color: 'black',
     marginLeft: 50,
   },
   separatorStyle: {
     height: 0.5,
-    backgroundColor: "white",
+    backgroundColor: "black",
     marginLeft: 50
-  }
+  },
+  appVersionText: {
+    flex:1,
+    fontSize: 16,
+    fontWeight: '300',
+    color: 'black',
+    marginLeft: 15,
+    paddingTop: 20,
+    paddingBottom: 10,
+    textAlign:"center"
+  },
 })

@@ -23,6 +23,11 @@ import {
     PublisherBanner,
     AdMobRewarded,
 } from 'react-native-admob'
+import { connect } from 'react-redux';
+import {pausePlayer, playStation} from '../actions/action'
+import {addToFavourites} from '../utils/utils'
+import {fetchFavouriteStations} from '../actions/action'
+
 
 const windowHeight = Dimensions.get('window').height;
 export default class NowPlayingModal extends Component {
@@ -31,7 +36,6 @@ export default class NowPlayingModal extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            trackPlayerState: TrackPlayer.STATE_PLAYING,
             currentVolume: 0,
             volumeListener: undefined,
             showAdBanner:true
@@ -57,26 +61,36 @@ export default class NowPlayingModal extends Component {
 
     _playPause() {
         // change the volume
-
-        if (this.state.trackPlayerState === TrackPlayer.STATE_PAUSED) {
-            TrackPlayer.play();
-        } else {
-
-            TrackPlayer.pause();
+        if(this.props.state === TrackPlayer.STATE_PAUSED) {
+            this.props.pausePlayer(false)
+        }
+        else {
+            this.props.pausePlayer(true)
             this.props.showFullAd()
         }
     }
 
-    async _previous() {
-        // TODO add tracks to the queue
-        //TrackPlayer.skipToPrevious();
+    _previous() {
+        var playingStationIndex = this.props.stations.indexOf(this.props.playingStation)
+        console.log("Playing index: " + playingStationIndex)
+        console.log("Stations count: " + this.props.stations.length + ", Next Station index: " + (playingStationIndex + 1))
+        if(playingStationIndex > 0) {
+            var previousStation = this.props.stations[playingStationIndex - 1]
+            console.log("Previous index: " + JSON.stringify(previousStation))
+            this.props.playStation(previousStation)
+        }
         this.props.showFullAd()
 
     }
 
     _next() {
-        // TODO add tracks to the queue
-        // TrackPlayer.skipToNext();
+        var playingStationIndex = this.props.stations.indexOf(this.props.playingStation)
+        console.log("Playing index: " + playingStationIndex)        
+        if(this.props.stations.length > playingStationIndex + 1) {
+            var nextStation = this.props.stations[playingStationIndex + 1]
+            console.log("Next index: " + JSON.stringify(nextStation))
+            this.props.playStation(nextStation)
+        }
         this.props.showFullAd()
     }
 
@@ -105,8 +119,8 @@ export default class NowPlayingModal extends Component {
                                 /*source={getImageForStationId(this.props.station.id)}*/>
                             </Image>
                             <Text style={styles.songTitle}>
-                                {this.props.station.name}</Text>
-
+                                {this.props.playingStation.name}</Text>
+                            <View style={{flexDirection:"row"}}>
                             <Slider
                                 style={{ width: 200 }}
                                 step={0.1}
@@ -115,6 +129,18 @@ export default class NowPlayingModal extends Component {
                                 onValueChange={(value) => SystemSetting.setVolume(value)}
                                 value={this.state.currentVolume}
                             />
+                            <ImageButton
+                                    source={iconPrevious}
+                                    onPress={()=> {
+                                        addToFavourites(this.props.playingStation)
+                                        TimerMixin.setTimeout(()=> {
+                                            this.props.fetchFavouriteStations()
+                                        }, 200)
+                                    }}
+                                    imageStyle={styles.controlIcon}
+                                />
+                            </View>
+
                             <View style={styles.controls}>
                                 <ImageButton
                                     source={iconPrevious}
@@ -197,3 +223,15 @@ const styles = StyleSheet.create({
     }
 });
 
+
+function mapStateToProps(state) {
+    
+        return {
+            stations: state.playback.stations,
+            state: state.playback.state,
+            playingStation: state.playback.playingStation
+        };
+}
+
+module.exports = connect(mapStateToProps, {pausePlayer, playStation, fetchFavouriteStations})(NowPlayingModal);
+    

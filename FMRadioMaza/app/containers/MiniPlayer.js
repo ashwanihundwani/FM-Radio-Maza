@@ -4,6 +4,7 @@ import TrackPlayer, { ProgressComponent } from 'react-native-track-player';
 import iconPlay from '../resources/images/play.png';
 import iconPause from '../resources/images/pause.png';
 import {getImageForStationId} from '../utils/utils'
+import { connect } from 'react-redux';
 
 export default class MiniPlayer extends Component {
 
@@ -34,12 +35,6 @@ export default class MiniPlayer extends Component {
     }
 
     render() {
-
-        
-        // if(this.state.trackPlayerState == TrackPlayer.STATE_NONE || this.state.trackPlayerState == TrackPlayer.STATE_STOPPED) {
-        //     return <View />;
-        // }
-
         return (
             <View style={styles.player}>
                 <View style={styles.content}>
@@ -50,7 +45,7 @@ export default class MiniPlayer extends Component {
                                 style={styles.artwork}
                             />
                             <View style={styles.info}>
-                                <Text style={styles.title}>{this.props.station.name}</Text>
+                                <Text style={styles.title}>{this.props.playingStation.name}</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -123,11 +118,10 @@ const styles = StyleSheet.create({
 }; */
 
 function mapStateToProps(state) {
-    const currentTrack = state.playback.currentTrack;
-    const currentTracks = state.playback.dataTracks;
 
     return {
         state: state.playback.state,
-        track: currentTracks ? currentTracks.find((track) => track.id == currentTrack) : null
+        playingStation: state.playback.playingStation
     };
 }
+module.exports = connect(mapStateToProps)(MiniPlayer);
