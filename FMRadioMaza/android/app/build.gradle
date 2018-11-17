@@ -143,6 +143,7 @@ dependencies {
     compile project(':RNAdMob') // From node_modules
     compile project(':react-native-track-player')
     compile project(':react-native-system-setting')
+    compile project(':react-native-mail-compose')
 }
 
 // Run this once to be able to run the application with BUCK

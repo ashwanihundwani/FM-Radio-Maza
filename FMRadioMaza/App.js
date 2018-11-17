@@ -4,7 +4,7 @@
 //  * @flow
 //  */
 
-import { View, NativeEventEmitter, NativeModules, AsyncStorage, TouchableHighlight } from 'react-native';
+import { View, NativeEventEmitter, NativeModules, AsyncStorage, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { Icon, Header, Button } from 'react-native-elements';
 import React from 'react'
 import { Text, Animated, Easing } from 'react-native'
@@ -51,13 +51,13 @@ const DrawerNavigation = StackNavigator({
       headerTintColor: "black",
       title: "FM Radio Maza",
       gesturesEnabled: false,
-      headerLeft: <TouchableHighlight underlayColor='#a1b4d4' onPress={() => {
+      headerLeft: <TouchableOpacity underlayColor='#a1b4d4' onPress={() => {
         if (navigation.state.index === 0) {
           navigation.navigate('DrawerOpen')
         } else {
           navigation.navigate('DrawerClose')
         }
-      }} style={getIconStyle()}><Icon type='font-awesome' color="black" name="bars" size={20}></Icon></TouchableHighlight>
+      }} style={getIconStyle()}><Icon type='font-awesome' color="black" name="bars" size={20}></Icon></TouchableOpacity>
     })
   })
 

@@ -13,6 +13,7 @@ import java.util.List;
 import com.sbugert.rnadmob.RNAdMobPackage;
 import guichaguri.trackplayer.TrackPlayer;
 import com.ninty.system.setting.SystemSettingPackage;
+import com.reactlibrary.mailcompose.RNMailComposePackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -28,7 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
           new RNAdMobPackage(),
           new TrackPlayer(),
-          new SystemSettingPackage()
+          new SystemSettingPackage(),
+          new RNMailComposePackage()
           
       );
     }

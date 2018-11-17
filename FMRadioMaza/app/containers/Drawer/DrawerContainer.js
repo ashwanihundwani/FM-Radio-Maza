@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, ScrollView, BackHandler } from 'react-na
 import { Icon, } from 'react-native-elements'
 import { NavigationActions } from 'react-navigation'
 import { Share } from 'react-native';
+import MailCompose from 'react-native-mail-compose';
 
 //We will ask you to rate us 5 star. If you feel this app is worth it, do rate us on app store. You can provide feedback by using "Give Feedback" option in menu"
 export default class DrawerContainer extends React.Component {
@@ -62,6 +63,19 @@ export default class DrawerContainer extends React.Component {
     </View>)
   }
 
+  async sendMail() {
+    try {
+      await MailCompose.send({
+        toRecipients: ["awesomeappstudio@gmail.com"],
+        subject: 'Feedback - FMRadioMaza',
+         // Or, use this if you want html body. Note that some Android mail clients / devices don't support this properly.
+      });
+    } catch (e) {
+        alert("Error in sending mail: " + e)
+      // e.code may be 'cannotSendMail' || 'cancelled' || 'saved' || 'failed'
+    }
+}
+
   addDrawerItem(text, icon, action) {
     return (<View><View style={styles.drawerItem}>
       <View style={styles.drawerItemIconContainer}>
@@ -76,15 +90,17 @@ export default class DrawerContainer extends React.Component {
     <View style={styles.separatorStyle}></View></View>)
   }
 
+
+
   render() {
     const { navigation } = this.props
     return (
       <ScrollView style={styles.container}>
         {this.addDrawerItem("Share App", "share", ()=> this.shareApp())}
-        {this.addDrawerItem("Give Feedback", "home", ()=> navigation.navigate('Home'))}
+        {this.addDrawerItem("Give Feedback", "home", ()=> 
+          this.sendMail()
+        )}
         {this.addDrawerItem("Go Ads Free", "th-large", ()=> navigation.navigate('Spaces'))}
-        {this.addDrawerItem("About Us", "th-large", ()=> navigation.navigate('Spaces'))}
-        
         {this.addAppVersionItem("Version 1.0.0")}
       </ScrollView>
     )

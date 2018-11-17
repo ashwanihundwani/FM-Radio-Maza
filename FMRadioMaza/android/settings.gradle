@@ -1,9 +1,11 @@
 rootProject.name = 'FMRadioMaza'
 
 include ':app'
-include ':RNAdMob', ':app'
+include ':RNAdMob'
 project(':RNAdMob').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-admob/android')
 include ':react-native-track-player'
 project(':react-native-track-player').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-track-player/android')
 include ':react-native-system-setting'
 project(':react-native-system-setting').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-system-setting/android')
+include ':react-native-mail-compose'
+project(':react-native-mail-compose').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-mail-compose/android')
